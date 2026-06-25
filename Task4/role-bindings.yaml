@@ -1,0 +1,44 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devops
+  namespace: test
+subjects:
+  - kind: Group
+    name: devops-group
+    apiGroup: rbac.authorization.k8s.io
+  - kind: ServiceAccount
+    name: cicd
+    namespace: test
+roleRef:
+  kind: Role
+  name: namespace-read-write
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer
+  namespace: test
+subjects:
+  - kind: Group
+    name: developer-group
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: namespace-read-only
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: infosec-spec
+  namespace: test
+subjects:
+  - kind: User
+    name: infosec-spec
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: secret-read
+  apiGroup: rbac.authorization.k8s.io

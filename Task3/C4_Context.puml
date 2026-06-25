@@ -1,0 +1,60 @@
+@startuml
+title PropDevelopment To Be Context Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubUsercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(Client, "Клиент")
+Person(Owner, "Собственник")
+Person(Manager, "Менеджер")
+Person(BusinessAnalyst, "Бизнес-аналитик")
+Person(BIAnalyst, "Аналитик BI")
+Person(Accountant, "Бухгалтер")
+
+Person(Visitor, "Посетитель")
+Person(Car, "Автомобиль")
+
+
+System_Boundary(PropDevelopment, "PropDevelopment") {
+    System(ClientServices, "Группа сервисов для клиентов", "Онлайн-витрина + Онлайн-тур + Онлайн-сделка, работа с клиентами")
+    System(HousingAndCommunalServices, "Группа сервисов ЖКУ", "Оплата ЖКХ, информация от УК, ремонты и т. д.")
+    System(SmartHome, "ИС Умный дом")
+    System(Finance, "Финансы")
+    System(Data, "Дата")
+}
+
+System_Boundary(SmartHome, "ИС Умный дом") {
+    System(Automatic, "Управление автоматикой")
+    System(Lock, "Управление запирающими устройствами")
+}
+
+System_Boundary(ExternalSmartHome, "Партнерская система управления домофоном и шлагбаумом") {
+    System(SmartIntercom, "Интеллектуальный домофон")
+    System(SmartBarrier, "Интеллектуальный шлагбаум")
+}
+
+System_Ext(ExternalSystems, "Прочие внешние системы", "Поставщики ЖКУ, государственные сервисы, оплата услуг")
+Rel(PropDevelopment, ExternalSystems, "Регистрация сделки")
+Rel(SmartHome, SmartIntercom, "Управление домофоном")
+Rel(SmartHome, SmartBarrier, "Управление шлагбаумом")
+
+Rel(Client, ClientServices, "Online туры по недвижимости")
+Rel(Client, ClientServices, "Выбор и бронь недвижимости")
+Rel(Client, ClientServices, "Покупка недвижимости")
+Rel(Owner, HousingAndCommunalServices, "Оплата ЖКХ")
+Rel(Owner, HousingAndCommunalServices, "Получение информации о ремонтах и от УК")
+Rel(Owner, Automatic, "Управление автоматикой Умного Дома")
+Rel(Owner, Lock, "Управление запирающими устройствами Умного Дома")
+Rel(Manager, ClientServices, "Работа с клиентами и продажами")
+Rel(BusinessAnalyst, PropDevelopment, "Развивает процессы и прикладные бизнес-системы")
+Rel(BIAnalyst, Data, "Анализирует данные и готовит отчётность")
+Rel(Accountant, Finance, "Ведёт бухгалтерский учёт")
+
+Rel(Visitor, SmartHome, "Звонок в домофон")
+Rel(Owner, SmartHome, "Открыть дверь через домофон")
+Rel(Owner, SmartHome, "Открыть дверь через домофон по биометрии")
+Rel(Car, SmartHome, "Открытие и закрытие шлагбаума при въезде и выезде")
+Rel(Owner, SmartHome, "Открытие и закрытие шлагбаума удаленно")
+
+@enduml
